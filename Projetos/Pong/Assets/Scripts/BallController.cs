@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public GameManager gameManager;
-    private Rigidbody2D rb;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] float speedIncrement = 0.5f;
+    [SerializeField] float maxSpeed = 20f;
+    float increment;
+    public float testSpeed;
     private Vector2 startingVelocity = new Vector2(5f, 5f);
     private bool canCollide = true;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0; // Desativa a gravidade
         rb.velocity = startingVelocity;
+        increment = speedIncrement;
     }
 
     public void ResetBall()
     {
         transform.position = Vector3.zero;
         rb.velocity = startingVelocity;
+        increment = speedIncrement;
         canCollide = true;
     }
 
@@ -27,33 +31,38 @@ public class BallController : MonoBehaviour
     {
         if (!canCollide) return;
 
-        Debug.Log("Collision with: " + collision.gameObject.name);
-
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("TopWall"))
+        //Detect if collision with a paddle
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Hit Wall");
+            Vector2 newVelocity = rb.velocity;
+            newVelocity.x = -newVelocity.x + increment;
+            increment = -increment;
+
+            if (newVelocity.x <= -maxSpeed) newVelocity.x = -maxSpeed;
+            if (newVelocity.x >= maxSpeed) newVelocity.x = maxSpeed;
+            
+            rb.velocity = newVelocity;
+            testSpeed = newVelocity.x;
+        }
+
+        //Detect if collision with upper or under wall
+        if (collision.gameObject.CompareTag("Wall"))
+        {
             Vector2 newVelocity = rb.velocity;
             newVelocity.y = -newVelocity.y;
             rb.velocity = newVelocity;
         }
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Hit Paddle");
-            Vector2 newVelocity = rb.velocity;
-            newVelocity.x = -newVelocity.x;
-            rb.velocity = newVelocity;
-        }
-
+        // Detect if Player Scored 
         if (collision.gameObject.CompareTag("WallEnemy"))
         {
-            Debug.Log("Hit WallEnemy");
             gameManager.ScorePlayer();
             ResetBall();
         }
-        else if (collision.gameObject.CompareTag("WallPlayer"))
+        
+        // Detect if Enemy scored
+        if (collision.gameObject.CompareTag("WallPlayer"))
         {
-            Debug.Log("Hit WallPlayer");
             gameManager.ScoreEnemy();
             ResetBall();
         }
@@ -64,7 +73,7 @@ public class BallController : MonoBehaviour
     private IEnumerator CollisionCooldown()
     {
         canCollide = false;
-        yield return new WaitForSeconds(0.1f); // Ajuste o tempo conforme necessário
+        yield return new WaitForSeconds(0.05f); // Ajuste o tempo conforme necessário
         canCollide = true;
     }
 }
