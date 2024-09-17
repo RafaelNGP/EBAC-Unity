@@ -39,12 +39,14 @@ public class GameManager : MonoBehaviour
     public void ScorePlayer()
     {
         playerScore++;
+        gameSettings.legacyScorePlayer++;
         UpdateScoreUI();
         CheckWin();
     }
     public void ScoreEnemy()
     {
         enemyScore++;
+        gameSettings.legacyScoreEnemy++;
         UpdateScoreUI();
         CheckWin();
     }

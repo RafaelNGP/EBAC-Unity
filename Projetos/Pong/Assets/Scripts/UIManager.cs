@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +10,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image enemyColor;
     [SerializeField] Image playerColor;
     [SerializeField] Image ballColor;
+    [SerializeField] TextMeshProUGUI maxScore;
+    [SerializeField] TextMeshProUGUI playerSpeed;
+    [SerializeField] TextMeshProUGUI enemySpeed;
 
     [SerializeField] private UnityEvent applySettings;
 
@@ -20,9 +22,18 @@ public class UIManager : MonoBehaviour
         enemyColor.color = gameSettings.enemyPaddleColor;
         playerColor.color = gameSettings.playerPaddleColor;
         ballColor.color = gameSettings.ballColor;
+        maxScore.text = gameSettings.MAX_score.ToString();
+        playerSpeed.text = gameSettings.playerSpeed.ToString();
+        enemySpeed.text = gameSettings.difficultyLevel.ToString();
         applySettings?.Invoke();
-    }
 
+        /* TODO: 
+         * Create preset for difficult mode
+         * set ball velocity
+         * set recommended values label.
+         * adjust textMeshProUGUI to display only 3 caracteres (0.3)
+         */
+    }
 
     public void ChangeEnemyColor(int i)
     {
@@ -34,7 +45,6 @@ public class UIManager : MonoBehaviour
         enemyColor.color = color;
         applySettings?.Invoke();
     }
-
     public void ChangePlayerColor(int i)
     {
         gameSettings.counterPlayer += i;
@@ -45,7 +55,6 @@ public class UIManager : MonoBehaviour
         playerColor.color = color;
         applySettings?.Invoke();
     }
-
     public void ChangeBallColor(int i)
     {
         gameSettings.counterBall += i;
@@ -56,5 +65,21 @@ public class UIManager : MonoBehaviour
         ballColor.color = color;
         applySettings?.Invoke();
     }
+    public void ChangeVictoryPoints(int i)
+    {
+        gameSettings.MAX_score += i;
+        if (gameSettings.MAX_score <= 1) gameSettings.MAX_score = 1;
 
+        maxScore.text = gameSettings.MAX_score.ToString(); 
+    }
+    public void ChangeEnemySpeed(float speed)
+    {
+        gameSettings.difficultyLevel += speed;
+        enemySpeed.text = gameSettings.difficultyLevel.ToString();
+    }
+    public void ChangePlayerSpeed(float speed)
+    {
+        gameSettings.playerSpeed += speed;
+        playerSpeed.text = gameSettings.playerSpeed.ToString();
+    }
 }
