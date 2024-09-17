@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private GameSettings gameSettings;
+
     [Header("Players")]
     [SerializeField] private Transform playerPaddle;
     [SerializeField] private Transform enemyPaddle;
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Points")]
     [SerializeField] private TextMeshProUGUI textPointsPlayer;
     [SerializeField] private TextMeshProUGUI textPointsEnemy;
+    [SerializeField] private TextMeshProUGUI gameResult;
     [SerializeField] private int winPoints;
     private int enemyScore = 0;
     private int playerScore = 0;
@@ -28,13 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameplay;
     [SerializeField] private GameObject endGame;
 
-    /*
-    public delegate void GameEvent();
-    public static event GameEvent OnScoreChanged;
-    public static event GameEvent OnGameReset;
-    */
     private void Start()
     {
+        ApplySettings();
         ResetGame();
     }
 
@@ -43,17 +41,13 @@ public class GameManager : MonoBehaviour
         playerScore++;
         UpdateScoreUI();
         CheckWin();
-        //OnScoreChanged?.Invoke();
     }
-
     public void ScoreEnemy()
     {
         enemyScore++;
         UpdateScoreUI();
         CheckWin();
-        //OnScoreChanged?.Invoke();
     }
-
     private void UpdateScoreUI()
     {
         textPointsEnemy.text = enemyScore.ToString();
@@ -63,8 +57,11 @@ public class GameManager : MonoBehaviour
     {
         if (enemyScore >= winPoints || playerScore >= winPoints)
         {
+            // Check who won
+            gameResult.text = (playerScore > enemyScore) ? "You win!" : "You lost!";
+            
             // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
-            ResetGame();
+            SelectOption(2);
         }
     }
     public void ResetGame()
@@ -77,7 +74,6 @@ public class GameManager : MonoBehaviour
         enemyScore = 0;
         UpdateScoreUI();
     }
-
     public void SelectOption(int index)
     {
         switch (index)
@@ -93,6 +89,7 @@ public class GameManager : MonoBehaviour
                 gameplay.SetActive(true);
                 endGame.SetActive(false);
                 options.SetActive(false);
+                ResetGame();
                 break;
             case 2: // End of game
                 mainMenu.SetActive(false);
@@ -107,5 +104,12 @@ public class GameManager : MonoBehaviour
                 options.SetActive(true);
                 break;
         }
+    }
+    public void ApplySettings()
+    {
+        playerPaddle.GetComponent<SpriteRenderer>().color = gameSettings.playerPaddleColor;
+        enemyPaddle.GetComponent<SpriteRenderer>().color = gameSettings.enemyPaddleColor;
+        ballController.GetComponent<SpriteRenderer>().color = gameSettings.ballColor;
+        winPoints = gameSettings.MAX_score;
     }
 }

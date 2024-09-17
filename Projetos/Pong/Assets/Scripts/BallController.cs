@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -9,8 +8,7 @@ public class BallController : MonoBehaviour
     [SerializeField] float speedIncrement = 0.5f;
     [SerializeField] float maxSpeed = 20f;
     float increment;
-    public float testSpeed;
-    private Vector2 startingVelocity = new Vector2(5f, 5f);
+    private Vector2 startingVelocity = new(5f, 5f);
     private bool canCollide = true;
 
     private void Start()
@@ -42,7 +40,6 @@ public class BallController : MonoBehaviour
             if (newVelocity.x >= maxSpeed) newVelocity.x = maxSpeed;
             
             rb.velocity = newVelocity;
-            testSpeed = newVelocity.x;
         }
 
         //Detect if collision with upper or under wall
@@ -66,8 +63,8 @@ public class BallController : MonoBehaviour
             gameManager.ScoreEnemy();
             ResetBall();
         }
-
-        StartCoroutine(CollisionCooldown());
+        
+        if (isActiveAndEnabled) StartCoroutine(CollisionCooldown());
     }
 
     private IEnumerator CollisionCooldown()
