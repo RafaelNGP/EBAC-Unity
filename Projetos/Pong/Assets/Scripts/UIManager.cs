@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameSettings gameSettings;
+    [SerializeField] GameManager gameManager;
 
     [SerializeField] Image enemyColor;
     [SerializeField] Image playerColor;
@@ -14,8 +15,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerSpeed;
     [SerializeField] TextMeshProUGUI enemySpeed;
     [SerializeField] TextMeshProUGUI ballSpeed;
-
-    [SerializeField] private UnityEvent applySettings;
 
     private void Awake()
     {
@@ -28,7 +27,6 @@ public class UIManager : MonoBehaviour
         UpdateTextMenu(gameSettings.playerSpeed, playerSpeed);
         UpdateTextMenu(gameSettings.enemySpeed, enemySpeed);
         UpdateTextMenu(gameSettings.ballSpeed, ballSpeed);
-        applySettings?.Invoke();
     }
 
     public void ChangeEnemyColor(int i)
@@ -39,7 +37,6 @@ public class UIManager : MonoBehaviour
         Color color = gameSettings.CycleOptionsColor(counterEnemy);
         gameSettings.enemyPaddleColor = color;
         enemyColor.color = color;
-        applySettings?.Invoke();
     }
     public void ChangePlayerColor(int i)
     {
@@ -49,7 +46,6 @@ public class UIManager : MonoBehaviour
         Color color = gameSettings.CycleOptionsColor(counterPlayer);
         gameSettings.playerPaddleColor = color;
         playerColor.color = color;
-        applySettings?.Invoke();
     }
     public void ChangeBallColor(int i)
     {
@@ -59,7 +55,6 @@ public class UIManager : MonoBehaviour
         Color color = gameSettings.CycleOptionsColor(counterBall);
         gameSettings.ballColor = color;
         ballColor.color = color;
-        applySettings?.Invoke();
     }
     public void ChangeVictoryPoints(int i)
     {
@@ -101,5 +96,11 @@ public class UIManager : MonoBehaviour
     private string FormatFloat(float value)
     {
         return value.ToString("F1");
+    }
+    public void ApplySettings()
+    {
+        gameManager.playerPaddle.GetComponent<SpriteRenderer>().color = gameSettings.playerPaddleColor;
+        gameManager.enemyPaddle.GetComponent<SpriteRenderer>().color = gameSettings.enemyPaddleColor;
+        gameManager.ballController.GetComponent<SpriteRenderer>().color = gameSettings.ballColor;
     }
 }

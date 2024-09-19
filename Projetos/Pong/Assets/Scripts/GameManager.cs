@@ -5,12 +5,18 @@ public class GameManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private GameSettings gameSettings;
+    [SerializeField] private GameStateManager gameState;
 
-    [Header("Players")]
-    [SerializeField] private Transform playerPaddle;
-    [SerializeField] private Transform enemyPaddle;
-    [SerializeField] private BallController ballController;    
-    
+    [Header("Game Objects")]
+    [SerializeField] public Transform playerPaddle;
+    [SerializeField] public Transform enemyPaddle;
+    [SerializeField] public BallController ballController;
+    [SerializeField] private AudioSource endingSFX;
+
+    [Header("Game Modes")]
+    [SerializeField] private GameObject vsCPU;
+    [SerializeField] private GameObject vsPlayer;
+
     [Header("Points")]
     [SerializeField] private TextMeshProUGUI textPointsPlayer;
     [SerializeField] private TextMeshProUGUI textPointsEnemy;
@@ -22,18 +28,6 @@ public class GameManager : MonoBehaviour
     private const float playerStartX = -7f;
     private const float enemyStartX = 7f;
     private const float startY = 0f;
-
-    [Header("Game Screens")]
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject options;
-    [SerializeField] private GameObject gameplay;
-    [SerializeField] private GameObject endGame;
-
-    private void Start()
-    {
-        ApplySettings();
-        ResetGame();
-    }
 
     public void ScorePlayer()
     {
@@ -56,13 +50,30 @@ public class GameManager : MonoBehaviour
     }
     public void CheckWin()
     {
-        if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
+        if (gameState.currentState == GameState.VsCPU)
         {
-            // Check who won
-            gameResult.text = (playerScore > enemyScore) ? "You win!" : "You lost!";
+            if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
+            {
+                endingSFX.Play();
+                // Check who won
+                gameResult.text = (playerScore > enemyScore) ? "You win!" : "You lost!";
             
-            // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
-            SelectOption(2);
+                // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
+                gameState.ChangeState(GameState.EndGame);
+            }
+        }
+
+        if (gameState.currentState == GameState.VsPlayer)
+        {
+            if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
+            {
+                endingSFX.Play();
+                // Check who won
+                gameResult.text = (playerScore > enemyScore) ? "Player 1 win!" : "Player 2 win!";
+
+                // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
+                gameState.ChangeState(GameState.EndGame);
+            }
         }
     }
     public void ResetGame()
@@ -75,41 +86,22 @@ public class GameManager : MonoBehaviour
         enemyScore = 0;
         UpdateScoreUI();
     }
-    public void SelectOption(int index)
+
+    public void DetectGameMode()
     {
-        switch (index)
+        // Método que vai verificar vsComp ou VsPlayer, e identificar seus componentes
+        if (gameState.currentState == GameState.VsCPU)
         {
-            case 0: // Main Menu
-                mainMenu.SetActive(true);
-                gameplay.SetActive(false);
-                endGame.SetActive(false);
-                options.SetActive(false);
-                break;
-            case 1: // Gameplay
-                mainMenu.SetActive(false);
-                gameplay.SetActive(true);
-                endGame.SetActive(false);
-                options.SetActive(false);
-                ResetGame();
-                break;
-            case 2: // End of game
-                mainMenu.SetActive(false);
-                gameplay.SetActive(false);
-                endGame.SetActive(true);
-                options.SetActive(false);
-                break;
-            case 3: // Options
-                mainMenu.SetActive(false);
-                gameplay.SetActive(false);
-                endGame.SetActive(false);
-                options.SetActive(true);
-                break;
+            playerPaddle = vsCPU?.GetComponentInChildren<PlayerPaddleController>().transform;
+            enemyPaddle = vsCPU?.GetComponentInChildren<EnemyPaddleController>().transform;
+            ballController = vsCPU?.GetComponentInChildren<BallController>();
         }
-    }
-    public void ApplySettings()
-    {
-        playerPaddle.GetComponent<SpriteRenderer>().color = gameSettings.playerPaddleColor;
-        enemyPaddle.GetComponent<SpriteRenderer>().color = gameSettings.enemyPaddleColor;
-        ballController.GetComponent<SpriteRenderer>().color = gameSettings.ballColor;
+
+        if (gameState.currentState == GameState.VsPlayer)
+        {
+            playerPaddle = vsPlayer?.GetComponentInChildren<PlayerPaddleController>().transform;
+            enemyPaddle = vsPlayer?.GetComponentInChildren<SecondPlayerPaddleController>().transform;
+            ballController = vsPlayer?.GetComponentInChildren<BallController>();
+        }
     }
 }

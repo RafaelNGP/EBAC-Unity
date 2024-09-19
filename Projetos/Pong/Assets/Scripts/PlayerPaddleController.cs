@@ -4,7 +4,8 @@ public class PlayerPaddleController : MonoBehaviour
 {
     [SerializeField] GameSettings settings;
     [SerializeField] BallController ballController;
-    [SerializeField] GameManager gameManager;
+
+    [SerializeField] GameStateManager gameState;
 
     private void Update()
     {
@@ -29,7 +30,7 @@ public class PlayerPaddleController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            gameManager.SelectOption(0);
+            gameState.ChangeState(GameState.MainMenu);
         }
     }
 }
