@@ -11,7 +11,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Transform playerPaddle;
     [SerializeField] public Transform enemyPaddle;
     [SerializeField] public BallController ballController;
-    [SerializeField] private AudioSource endingSFX;
+
+    [Header("SFX")]
+    [SerializeField] public AudioSource menuSound;
+    [SerializeField] public AudioSource ballSFX;
+    [SerializeField] public AudioSource endingSFX;
 
     [Header("Game Modes")]
     [SerializeField] private GameObject vsCPU;
@@ -56,7 +60,7 @@ public class GameManager : MonoBehaviour
             {
                 endingSFX.Play();
                 // Check who won
-                gameResult.text = (playerScore > enemyScore) ? "You win!" : "You lost!";
+                gameResult.text = (playerScore > enemyScore) ? gameSettings.player1 + " win!" : "You lost!";
             
                 // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
                 gameState.ChangeState(GameState.EndGame);
@@ -69,7 +73,7 @@ public class GameManager : MonoBehaviour
             {
                 endingSFX.Play();
                 // Check who won
-                gameResult.text = (playerScore > enemyScore) ? "Player 1 win!" : "Player 2 win!";
+                gameResult.text = (playerScore > enemyScore) ? gameSettings.player1 + " win!" : gameSettings.player2+ " win!";
 
                 // Ativar o canvas e oferecer opções para voltar menu ou reiniciar jogo
                 gameState.ChangeState(GameState.EndGame);
@@ -95,6 +99,10 @@ public class GameManager : MonoBehaviour
             playerPaddle = vsCPU?.GetComponentInChildren<PlayerPaddleController>().transform;
             enemyPaddle = vsCPU?.GetComponentInChildren<EnemyPaddleController>().transform;
             ballController = vsCPU?.GetComponentInChildren<BallController>();
+            
+            Canvas canvas = vsCPU?.GetComponentInChildren<Canvas>();
+            textPointsPlayer = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            textPointsEnemy = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         }
 
         if (gameState.currentState == GameState.VsPlayer)
@@ -102,6 +110,10 @@ public class GameManager : MonoBehaviour
             playerPaddle = vsPlayer?.GetComponentInChildren<PlayerPaddleController>().transform;
             enemyPaddle = vsPlayer?.GetComponentInChildren<SecondPlayerPaddleController>().transform;
             ballController = vsPlayer?.GetComponentInChildren<BallController>();
+
+            Canvas canvas = vsPlayer?.GetComponentInChildren<Canvas>();
+            textPointsPlayer = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            textPointsEnemy = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         }
     }
 }

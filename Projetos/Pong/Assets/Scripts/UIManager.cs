@@ -2,15 +2,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameSettings gameSettings;
     [SerializeField] GameManager gameManager;
 
+    [SerializeField] TMP_InputField player1Name;
+    [SerializeField] TMP_InputField player2Name;
+
     [SerializeField] Image enemyColor;
     [SerializeField] Image playerColor;
     [SerializeField] Image ballColor;
+
     [SerializeField] TextMeshProUGUI maxScore;
     [SerializeField] TextMeshProUGUI playerSpeed;
     [SerializeField] TextMeshProUGUI enemySpeed;
@@ -18,6 +23,9 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        UpdateTextMenu(gameSettings.player1, player1Name);
+        UpdateTextMenu(gameSettings.player2, player2Name);
+
         //aplicar as cores que estão no GameSettings
         enemyColor.color = gameSettings.enemyPaddleColor;
         playerColor.color = gameSettings.playerPaddleColor;
@@ -93,9 +101,21 @@ public class UIManager : MonoBehaviour
         string texto = FormatFloat(value);
         menu.text = texto;
     }
+    private void UpdateTextMenu(string value, TMP_InputField menu) 
+    {
+        menu.text = value;
+    }
     private string FormatFloat(float value)
     {
         return value.ToString("F1");
+    }
+    public void EditPlayer1Name(string name)
+    {
+        gameSettings.player1 = name;
+    }
+    public void EditPlayer2Name(string name)
+    {
+        gameSettings.player2 = name;
     }
     public void ApplySettings()
     {

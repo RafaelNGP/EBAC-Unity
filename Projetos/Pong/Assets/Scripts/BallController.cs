@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    [SerializeField] AudioSource ballAudio;
     [SerializeField] GameSettings gameSettings;
     [SerializeField] GameManager gameManager;
     [SerializeField] Rigidbody2D rb;
@@ -43,7 +42,7 @@ public class BallController : MonoBehaviour
             if (newVelocity.x >= maxSpeed) newVelocity.x = maxSpeed;
             
             rb.velocity = newVelocity;
-            ballAudio.Play();
+            gameManager.ballSFX.Play();
         }
 
         //Detect if collision with upper or under wall

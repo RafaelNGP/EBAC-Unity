@@ -13,6 +13,10 @@ public class GameSettings : ScriptableObject
     public float ballSpeed;
 
     public const int MAX_COLOR = 3;
+
+    [Header("Player Name")]
+    public string player1;
+    public string player2;
     
     [Header("Colors")]
     public Color playerPaddleColor;
