@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a34ce08bef07c94ab93901f132501da, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  MAX_score: 1
-  playerSpeed: 3.4999995
-  difficultyLevel: 5
-  playerPaddleColor: {r: 1, g: 0, b: 0, a: 1}
-  enemyPaddleColor: {r: 1, g: 0, b: 0, a: 1}
-  ballColor: {r: 1, g: 0, b: 0, a: 1}
-  counterEnemy: 1
-  counterPlayer: 1
-  counterBall: 1
-  legacyScorePlayer: 3
-  legacyScoreEnemy: 3
+  MAX_score: 2
+  playerSpeed: 4.5
+  enemySpeed: 4.5
+  ballSpeed: 0.3
+  playerPaddleColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyPaddleColor: {r: 1, g: 1, b: 1, a: 1}
+  ballColor: {r: 1, g: 1, b: 1, a: 1}
+  counterEnemy: 0
+  counterPlayer: 0
+  counterBall: 0
+  legacyScorePlayer: 41
+  legacyScoreEnemy: 25

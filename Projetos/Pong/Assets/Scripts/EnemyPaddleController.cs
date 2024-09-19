@@ -18,6 +18,6 @@ public class EnemyPaddleController : MonoBehaviour
     {
         float targetY = Mathf.Clamp(ball.transform.position.y, -4.5f, 4.5f); // Limita a posição Y
         Vector2 targetPosition = new Vector2(transform.position.x, targetY);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * settings.difficultyLevel); // Move gradualmente para a posição Y da bola
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * settings.enemySpeed); // Move gradualmente para a posição Y da bola
     }
 }

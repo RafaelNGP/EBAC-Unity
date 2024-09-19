@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPointsPlayer;
     [SerializeField] private TextMeshProUGUI textPointsEnemy;
     [SerializeField] private TextMeshProUGUI gameResult;
-    [SerializeField] private int winPoints;
     private int enemyScore = 0;
     private int playerScore = 0;
 
@@ -57,7 +56,7 @@ public class GameManager : MonoBehaviour
     }
     public void CheckWin()
     {
-        if (enemyScore >= winPoints || playerScore >= winPoints)
+        if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
         {
             // Check who won
             gameResult.text = (playerScore > enemyScore) ? "You win!" : "You lost!";
@@ -112,6 +111,5 @@ public class GameManager : MonoBehaviour
         playerPaddle.GetComponent<SpriteRenderer>().color = gameSettings.playerPaddleColor;
         enemyPaddle.GetComponent<SpriteRenderer>().color = gameSettings.enemyPaddleColor;
         ballController.GetComponent<SpriteRenderer>().color = gameSettings.ballColor;
-        winPoints = gameSettings.MAX_score;
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    [SerializeField] GameSettings gameSettings;
     [SerializeField] GameManager gameManager;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] float speedIncrement = 0.5f;
@@ -13,6 +14,7 @@ public class BallController : MonoBehaviour
 
     private void Start()
     {
+        speedIncrement = gameSettings.ballSpeed;
         rb.velocity = startingVelocity;
         increment = speedIncrement;
     }
@@ -66,7 +68,6 @@ public class BallController : MonoBehaviour
         
         if (isActiveAndEnabled) StartCoroutine(CollisionCooldown());
     }
-
     private IEnumerator CollisionCooldown()
     {
         canCollide = false;

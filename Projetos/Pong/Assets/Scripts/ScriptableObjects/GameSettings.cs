@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "GameSettings", menuName = "ScriptableObjects/GameSettings", order = 1)]
@@ -8,7 +9,8 @@ public class GameSettings : ScriptableObject
     [Header("Gameplay")]
     public int MAX_score;
     public float playerSpeed;
-    public float difficultyLevel; // 1 = Easy, 2 = Medium, 3 = Hard
+    public float enemySpeed;
+    public float ballSpeed;
 
     public const int MAX_COLOR = 3;
     
@@ -67,6 +69,37 @@ public class GameSettings : ScriptableObject
                 return counterBall;
             default:
                 return i;
+        }
+    }
+    public void ChangeGameDifficultyPreset(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                playerSpeed = 5f;
+                enemySpeed = 4f;
+                ballSpeed = 0.2f;
+                break;
+            case 1:
+                playerSpeed = 4.5f;
+                enemySpeed = 4.5f;
+                ballSpeed = 0.3f;
+                break;
+            case 2:
+                playerSpeed = 4f;
+                enemySpeed = 5f;
+                ballSpeed = 0.4f;
+                break;
+            case 3:
+                playerSpeed = 3f;
+                enemySpeed = 6f;
+                ballSpeed = 0.5f;
+                break;
+            default:
+                playerSpeed = 4.5f;
+                enemySpeed = 4.5f;
+                ballSpeed = 0.3f;
+                break;
         }
     }
 }

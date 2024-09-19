@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI maxScore;
     [SerializeField] TextMeshProUGUI playerSpeed;
     [SerializeField] TextMeshProUGUI enemySpeed;
+    [SerializeField] TextMeshProUGUI ballSpeed;
 
     [SerializeField] private UnityEvent applySettings;
 
@@ -22,17 +23,12 @@ public class UIManager : MonoBehaviour
         enemyColor.color = gameSettings.enemyPaddleColor;
         playerColor.color = gameSettings.playerPaddleColor;
         ballColor.color = gameSettings.ballColor;
-        maxScore.text = gameSettings.MAX_score.ToString();
-        playerSpeed.text = gameSettings.playerSpeed.ToString();
-        enemySpeed.text = gameSettings.difficultyLevel.ToString();
-        applySettings?.Invoke();
 
-        /* TODO: 
-         * Create preset for difficult mode
-         * set ball velocity
-         * set recommended values label.
-         * adjust textMeshProUGUI to display only 3 caracteres (0.3)
-         */
+        maxScore.text = gameSettings.MAX_score.ToString();
+        UpdateTextMenu(gameSettings.playerSpeed, playerSpeed);
+        UpdateTextMenu(gameSettings.enemySpeed, enemySpeed);
+        UpdateTextMenu(gameSettings.ballSpeed, ballSpeed);
+        applySettings?.Invoke();
     }
 
     public void ChangeEnemyColor(int i)
@@ -74,12 +70,36 @@ public class UIManager : MonoBehaviour
     }
     public void ChangeEnemySpeed(float speed)
     {
-        gameSettings.difficultyLevel += speed;
-        enemySpeed.text = gameSettings.difficultyLevel.ToString();
+        gameSettings.enemySpeed += speed;    
+        UpdateTextMenu(gameSettings.enemySpeed, enemySpeed);
     }
     public void ChangePlayerSpeed(float speed)
     {
         gameSettings.playerSpeed += speed;
-        playerSpeed.text = gameSettings.playerSpeed.ToString();
+        UpdateTextMenu(gameSettings.playerSpeed, playerSpeed);
+    }
+    public void ChangeBallAcceleration(float speed)
+    {
+        gameSettings.ballSpeed += speed;
+        if (gameSettings.ballSpeed <= 0.1f) gameSettings.ballSpeed = 0.1f;
+
+        UpdateTextMenu(gameSettings.ballSpeed, ballSpeed);
+    }
+    public void ChangeGameDifficultyPreset(int i)
+    {
+        gameSettings.ChangeGameDifficultyPreset(i);
+
+        UpdateTextMenu(gameSettings.playerSpeed, playerSpeed);
+        UpdateTextMenu(gameSettings.enemySpeed, enemySpeed);
+        UpdateTextMenu(gameSettings.ballSpeed, ballSpeed);
+    }
+    private void UpdateTextMenu(float value, TextMeshProUGUI menu)
+    {
+        string texto = FormatFloat(value);
+        menu.text = texto;
+    }
+    private string FormatFloat(float value)
+    {
+        return value.ToString("F1");
     }
 }
