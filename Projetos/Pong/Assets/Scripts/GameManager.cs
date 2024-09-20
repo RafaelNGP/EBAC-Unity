@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
             if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
             {
                 endingSFX.Play();
+                CheckIfAnyName();
                 // Check who won
                 gameResult.text = (playerScore > enemyScore) ? gameSettings.player1 + " win!" : "You lost!";
             
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
             if (enemyScore >= gameSettings.MAX_score || playerScore >= gameSettings.MAX_score)
             {
                 endingSFX.Play();
+                CheckIfAnyName();
                 // Check who won
                 gameResult.text = (playerScore > enemyScore) ? gameSettings.player1 + " win!" : gameSettings.player2+ " win!";
 
@@ -114,6 +117,15 @@ public class GameManager : MonoBehaviour
             Canvas canvas = vsPlayer?.GetComponentInChildren<Canvas>();
             textPointsPlayer = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             textPointsEnemy = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+    }
+
+    private void CheckIfAnyName()
+    {
+        if (string.IsNullOrEmpty(gameSettings.player1) || string.IsNullOrEmpty(gameSettings.player2))
+        {
+            gameSettings.player1 = "Player 1";
+            gameSettings.player2 = "Player 2";
         }
     }
 }
