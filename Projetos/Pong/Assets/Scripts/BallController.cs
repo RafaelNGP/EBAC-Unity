@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-
 public class BallController : MonoBehaviour
 {
     [SerializeField] GameSettings gameSettings;

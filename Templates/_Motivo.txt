@@ -1,0 +1,1 @@
+Esta é uma pasta com alguns exemplos de sistemas que podem ser usados em outros projetos para acelerar o desenvolvimento.
