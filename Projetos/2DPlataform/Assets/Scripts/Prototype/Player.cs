@@ -1,6 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
@@ -24,11 +23,19 @@ public class Player : MonoBehaviour
 
     private float jumpDuration = .3f;
 
+    [Header("Attack Setup")]
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform firepointLeft;
+    [SerializeField] Transform firepointRight;
+    private bool _isMovingLeft;
+    private bool _isMovingRight;
+
     // Update is called once per frame
     void Update()
     {
         HandleMovement();
         HandleJump();
+        HandleAttack();
     }
 
     private void HandleJump()
@@ -39,7 +46,6 @@ public class Player : MonoBehaviour
             HandleAnimation();
         }
     }
-
     private void HandleAnimation()
     {
         rigidbody2.transform.localScale = Vector2.one;
@@ -48,7 +54,6 @@ public class Player : MonoBehaviour
         rigidbody2.transform.DOScaleX(startJumpX, jumpDuration).SetLoops(2, LoopType.Yoyo);
         _isJumping = true;
     }
-
     private void HandleMovement()
     {
         _isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -56,10 +61,14 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rigidbody2.velocity = new Vector2(_isRunning ? -speedRun : -speed, rigidbody2.velocity.y);
+            _isMovingLeft = true;
+            _isMovingRight = false;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             rigidbody2.velocity = new Vector2(_isRunning ? speedRun : speed, rigidbody2.velocity.y);
+            _isMovingLeft = false;
+            _isMovingRight = true;
         }
 
         if (rigidbody2.velocity.x > 0)
@@ -69,6 +78,16 @@ public class Player : MonoBehaviour
         else if (rigidbody2.velocity.x < 0)
         {
             rigidbody2.velocity -= friction;
+        }
+    }
+
+    private void HandleAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Instantiate(projectile, 
+                _isMovingLeft ? firepointLeft.position : firepointRight.position, 
+                _isMovingLeft ? firepointLeft.rotation : firepointRight.rotation);
         }
     }
 

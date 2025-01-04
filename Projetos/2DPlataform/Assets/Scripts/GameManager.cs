@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,27 +6,16 @@ public class GameManager : Singleton<GameManager>
     [Header("Player")]
     [SerializeField] private GameObject player;
 
-    [Header("References")]
-    [SerializeField] private Transform spawnPoint;
-
     [Header("Enemies")]
     [SerializeField] private List<GameObject> enemies;
 
-    GameObject _currentPlayer;
-
-    private void Start()
+    public List<GameObject> GetEnemies()
     {
-        Init();
+        return enemies;
     }
 
-    public void Init()
+    public GameObject GetPlayer()
     {
-        SpawnPlayer();
-    }
-
-    public void SpawnPlayer()
-    {
-        _currentPlayer = Instantiate(player);
-        _currentPlayer.transform.position = spawnPoint.position;
+        return player;
     }
 }
