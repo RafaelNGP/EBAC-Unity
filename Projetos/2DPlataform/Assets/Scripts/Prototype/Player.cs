@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
+            animator.SetTrigger("Attacking");
             Instantiate(projectile, firepoint.position, firepoint.rotation);
         }
     }
