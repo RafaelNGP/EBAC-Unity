@@ -11,11 +11,6 @@ public class VictoryManager : MonoBehaviour
     [SerializeField] GameObject canvasDefeat;
     [SerializeField] GameManager gameManager;
 
-    private void Awake()
-    {
-        gameManager = GetComponent<GameManager>();
-    }
-
     private void OnEnable()
     {
         OnDefeat += Defeat;
