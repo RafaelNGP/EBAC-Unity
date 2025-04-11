@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class ItemManager : MonoBehaviour
 {
     public int coins;
     public static ItemManager Instance;
+    public static event Action<int> OnCoinChanged;
 
     private void Awake()
     {
@@ -32,5 +34,6 @@ public class ItemManager : MonoBehaviour
     public void AddCoins(int amount = 1)
     {
         coins += amount;
+        OnCoinChanged?.Invoke(coins);
     }
 }
