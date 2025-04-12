@@ -24,7 +24,6 @@ public class HealthBase : MonoBehaviour
         {
             Die();
         }
-
     }
 
     public void Die() 

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ShotAttack : MonoBehaviour
 {
-    public float projetilSpeed = .1f;
+    [SerializeField] private float projetilSpeed = .1f;
+    [SerializeField] private int bulletDamage = 10;
 
     void Awake()
     {
@@ -15,12 +16,18 @@ public class ShotAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<HealthBase>().Die();
+            collision.gameObject.GetComponent<HealthBase>().Damage(bulletDamage);
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }
+    }
+
+    public int BulletDamage
+    {
+        get { return bulletDamage; }
+        set { bulletDamage = value; }
     }
 }
