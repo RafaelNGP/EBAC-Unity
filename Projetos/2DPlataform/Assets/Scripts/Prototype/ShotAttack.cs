@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 public class ShotAttack : MonoBehaviour
-{   
+{
     public float projetilSpeed = .1f;
 
     void Awake()
@@ -16,9 +16,9 @@ public class ShotAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             collision.gameObject.GetComponent<HealthBase>().Die();
-
+            Destroy(gameObject);
         }
-        else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor"))
+        else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Bullet"))
         {
             Destroy(gameObject);
         }
