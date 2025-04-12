@@ -1,19 +1,46 @@
 using UnityEngine;
 
+[RequireComponent(typeof(HealthBase))]
 public class EnemyBase : MonoBehaviour
 {
-    private int damage = 1;
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private Animator animator;
+    private IEnemyMovement movementBehavior;
+    
+    private void Awake()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        animator = GetComponentInChildren<Animator>();
+    }
+
+    private void Start()
+    {
+        movementBehavior = GetComponent<IEnemyMovement>();
+        if (movementBehavior != null)
         {
-            var health = collision.transform.GetComponent<HealthBase>();
-            if (health != null)
-            {
-                damage = collision.gameObject.GetComponent<ShotAttack>().BulletDamage;
-                health.Damage(damage);
-            }
+            movementBehavior.Initialize(transform);
+        }
+        else
+        {
+            Debug.LogWarning("EnemyBase: Movement behavior not found.", this);
+        }
+    }
+
+    private void Update()
+    {
+        movementBehavior?.Update();
+    }
+
+    public void PlayAttack()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
+    }
+    public void PlayDeath()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
         }
     }
 }

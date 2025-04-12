@@ -2823,7 +2823,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2487250961333176651}
-  - component: {fileID: 6792523701221379891}
+  - component: {fileID: 186548307118758806}
   m_Layer: 0
   m_Name: PFB_Astronaut_Enemy
   m_TagString: Player
@@ -2847,7 +2847,7 @@ Transform:
   - {fileID: 8674944634289848646}
   m_Father: {fileID: 6581065648375155394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6792523701221379891
+--- !u!95 &186548307118758806
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -3113,9 +3113,10 @@ GameObject:
   - component: {fileID: 5315899621443249706}
   - component: {fileID: 3424180049706982015}
   - component: {fileID: 1303013377886567645}
+  - component: {fileID: 6446624924781245544}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3128,7 +3129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8882011211599360807}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.8, y: -0.47, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
@@ -3222,7 +3223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa19ef1c840b2a40b37e6ea4099b618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 10
+  startHealth: 15
   destroyOnKill: 1
   delayDeath: 0.2
 --- !u!114 &1303013377886567645
@@ -3237,4 +3238,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d304a099840808646940b7fa43b57cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+--- !u!114 &6446624924781245544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8882011211599360807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cb79a58337ab74d9d9e64bdc6d4bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolDistance: 3
+  moveSpeed: 2
+  waitTime: 2
