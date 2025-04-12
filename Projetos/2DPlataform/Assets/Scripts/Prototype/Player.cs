@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
 
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float projectileSpeed = 10f;
+
     [Header("Componentes")]
     private Rigidbody2D rb;
     private Animator animator;
@@ -38,6 +42,9 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
+
+        // Lógica de ataque
+        HandleAttack();
 
         // Atualiza parâmetros de animação
         UpdateAnimations();
@@ -79,4 +86,21 @@ public class Player : MonoBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+    private void HandleAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            animator.SetTrigger("Attacking");
+
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            rb.velocity = firePoint.right * projectileSpeed;
+
+            if (transform.localScale.x < 0)
+            {
+                rb.velocity = -firePoint.right * projectileSpeed;
+            }
+        }
+    }
+
 }
