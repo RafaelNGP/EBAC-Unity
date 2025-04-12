@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 81782426}
   - component: {fileID: 81782425}
   - component: {fileID: 81782424}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -649,6 +649,7 @@ Transform:
   m_Children:
   - {fileID: 686963089}
   - {fileID: 810280525}
+  - {fileID: 1339584859}
   m_Father: {fileID: 1960495269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &416962550
@@ -678,21 +679,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804ad41c12e604149a9fbcbdfae38edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody2: {fileID: 416962552}
-  friction: {x: -0.3, y: 0}
-  playerSizeL: {x: -0.5, y: 0.5}
-  playerSizeR: {x: 0.5, y: 0.5}
-  speed: 10
-  speedRun: 20
-  forceJump: 20
-  startJumpY: 0.7
-  startJumpX: 0.3
-  endJumpY: 0.3
-  endJumpX: 0.7
-  animator: {fileID: 686963090}
-  projectile: {fileID: 726161626150202245, guid: 538cb11d3023918408f07ae8d979e973,
-    type: 3}
-  firepoint: {fileID: 810280525}
+  moveSpeed: 5
+  jumpForce: 12
+  groundCheck: {fileID: 1339584859}
+  groundCheckRadius: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &416962552
 Rigidbody2D:
   serializedVersion: 4
@@ -1199,12 +1192,6 @@ Transform:
 --- !u!4 &686963089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8007466312498025151, guid: 00afc9fb4087652419d090da0b825d97,
-    type: 3}
-  m_PrefabInstance: {fileID: 981576253}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &686963090 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6413013834153556191, guid: 00afc9fb4087652419d090da0b825d97,
     type: 3}
   m_PrefabInstance: {fileID: 981576253}
   m_PrefabAsset: {fileID: 0}
@@ -2039,6 +2026,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1339584858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1339584859}
+  m_Layer: 6
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1339584859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339584858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 416962549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485725376
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,7 +2818,7 @@ GameObject:
   - component: {fileID: 2036533604}
   - component: {fileID: 2036533603}
   - component: {fileID: 2036533602}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Floor
   m_Icon: {fileID: 0}
