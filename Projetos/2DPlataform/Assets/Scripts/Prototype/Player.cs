@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
     }
     private void HandleAttack()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Fire2"))
         {
             animator.SetTrigger("Attacking");
 
