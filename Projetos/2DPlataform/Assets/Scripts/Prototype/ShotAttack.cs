@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class ShotAttack : MonoBehaviour
@@ -17,11 +16,11 @@ public class ShotAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             collision.gameObject.GetComponent<HealthBase>().Damage(bulletDamage);
-            Destroy(gameObject);
+            ObjectPooling.Instance.ReturnProjectile(gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Bullet"))
         {
-            Destroy(gameObject);
+            ObjectPooling.Instance.ReturnProjectile(gameObject);
         }
     }
 

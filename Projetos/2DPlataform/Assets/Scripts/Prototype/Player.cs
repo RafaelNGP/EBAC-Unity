@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -92,7 +93,10 @@ public class Player : MonoBehaviour
         {
             animator.SetTrigger("Attacking");
 
-            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            GameObject projectile = ObjectPooling.Instance.GetObject();
+            projectile.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            projectile.SetActive(true);
+
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
             rb.velocity = firePoint.right * projectileSpeed;
 
@@ -102,5 +106,4 @@ public class Player : MonoBehaviour
             }
         }
     }
-
 }
