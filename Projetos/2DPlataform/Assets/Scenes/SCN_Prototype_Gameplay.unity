@@ -204,6 +204,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1415939100}
     m_Modifications:
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.b
+      value: 0.44705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.g
+      value: 0.94509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6446624924781245544, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
       propertyPath: waitTime
@@ -729,6 +744,8 @@ MonoBehaviour:
   startHealth: 10
   destroyOnKill: 1
   delayDeath: 0.2
+  flashColor: {r: 1, g: 0.94509804, b: 0.44705883, a: 1}
+  flashDuration: 1
 --- !u!114 &416962551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,6 +769,9 @@ MonoBehaviour:
   projectilePrefab: {fileID: 726161626150202245, guid: 538cb11d3023918408f07ae8d979e973,
     type: 3}
   projectileSpeed: 10
+  damageCooldown: 1
+  knockbackForceX: 30
+  knockbackForceY: 10
 --- !u!50 &416962552
 Rigidbody2D:
   serializedVersion: 4
@@ -766,7 +786,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -3814,6 +3834,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1415939100}
     m_Modifications:
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.b
+      value: 0.44705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.g
+      value: 0.94509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
+        type: 3}
+      propertyPath: flashColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6446624924781245544, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
       propertyPath: waitTime

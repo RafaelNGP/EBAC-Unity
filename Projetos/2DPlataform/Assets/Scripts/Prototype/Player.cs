@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,18 +15,30 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
 
+    [Header("Attacking")]
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 10f;
+
+    [Header("Getting Damaged")]
+    private bool isInvulnerable = false;
+    [SerializeField] private float damageCooldown = 1f;
+    [SerializeField] private float knockbackForceX = 5f;
+    [SerializeField] private float knockbackForceY = 3f;
+
 
     [Header("Componentes")]
     private Rigidbody2D rb;
     private Animator animator;
     private Vector3 originalScale;
 
+    [Header("Events")]
+    private Action GetDamaged;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        GetDamaged += HandleGetDamaged;
         animator = GetComponentInChildren<Animator>();
         originalScale = transform.localScale;
     }
@@ -54,6 +67,23 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        Debug.Log("Colisão com: " + collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isInvulnerable)
+            {
+                Debug.Log("Ignorado por invulnerabilidade!");
+                return;
+            } 
+            
+            GetDamaged?.Invoke();
+        }
     }
 
     private void Move()
@@ -105,5 +135,35 @@ public class Player : MonoBehaviour
                 rb.velocity = -firePoint.right * projectileSpeed;
             }
         }
+    }
+
+    private void HandleGetDamaged()
+    {
+        Debug.Log("Player took damage!");
+        HealthBase health = GetComponent<HealthBase>();
+        health.FlashSprite();
+        health.Damage(5);
+        ApplyKnockback();
+
+        // Adiciona invulnerabilidade
+        isInvulnerable = true;
+        StartCoroutine(InvulnerabilityCoroutine());
+    }
+
+    private IEnumerator InvulnerabilityCoroutine()
+    {
+        yield return new WaitForSeconds(damageCooldown);
+        isInvulnerable = false;
+    }
+
+    private void ApplyKnockback()
+    {
+        if (rb == null) return;
+
+        float horizontalForce = transform.localScale.x > 0 ? -knockbackForceX : knockbackForceX;
+        Vector2 force = new Vector2(horizontalForce, knockbackForceY);
+
+        rb.velocity = Vector2.zero; // zera a velocidade atual pra evitar empurrões cumulativos
+        rb.AddForce(force, ForceMode2D.Impulse);
     }
 }
