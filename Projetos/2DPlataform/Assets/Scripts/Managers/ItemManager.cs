@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public int coins;
     public static ItemManager Instance;
     public static event Action<int> OnCoinChanged;
+    public int coins;
 
     private void Awake()
     {

@@ -12,6 +12,18 @@ public class SelfDestruct : MonoBehaviour
         StartCoroutine(nameof(Destruct), timeToLive);
     }
 
+    private void OnEnable()
+    {
+        // Reinicia a contagem regressiva quando o objeto é ativado
+        StopCoroutine(nameof(Destruct));
+        StartCoroutine(nameof(Destruct), timeToLive);
+    }
+    private void OnDisable()
+    {
+        // Para a contagem regressiva quando o objeto é desativado
+        StopCoroutine(nameof(Destruct));
+    }
+
     private IEnumerator Destruct()
     {
         // Destrói o objeto
