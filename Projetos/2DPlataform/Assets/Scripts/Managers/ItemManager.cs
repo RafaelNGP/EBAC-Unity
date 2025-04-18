@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public static ItemManager Instance;
+    public static ItemManager Instance; 
     public static event Action<int> OnCoinChanged;
+    public static event Action<int> OnGenChanged;
     public int coins;
+    public int gems;
 
     private void Awake()
     {
@@ -29,11 +29,18 @@ public class ItemManager : MonoBehaviour
     private void Reset()
     {
         coins = 0;
+        gems = 0;
     }
 
     public void AddCoins(int amount = 1)
     {
         coins += amount;
         OnCoinChanged?.Invoke(coins);
+    }
+
+    public void GotGem(int amount = 1)
+    {
+        gems++;
+        OnGenChanged?.Invoke(gems);
     }
 }
