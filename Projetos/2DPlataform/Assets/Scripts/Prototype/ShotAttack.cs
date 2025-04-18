@@ -15,7 +15,7 @@ public class ShotAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<HealthBase>().Damage(bulletDamage);
+            collision.gameObject.GetComponent<HealthEnemy>().GetDamaged1?.Invoke();
             ObjectPooling.Instance.ReturnProjectile(gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Bullet"))

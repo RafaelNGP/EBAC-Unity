@@ -207,12 +207,12 @@ PrefabInstance:
     - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
       propertyPath: flashColor.b
-      value: 0.44705883
+      value: 0.23137255
       objectReference: {fileID: 0}
     - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
       propertyPath: flashColor.g
-      value: 0.94509804
+      value: 0.8509804
       objectReference: {fileID: 0}
     - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
@@ -762,7 +762,7 @@ GameObject:
   - component: {fileID: 416962553}
   - component: {fileID: 416962552}
   - component: {fileID: 416962551}
-  - component: {fileID: 416962550}
+  - component: {fileID: 416962554}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -788,23 +788,6 @@ Transform:
   - {fileID: 1339584859}
   m_Father: {fileID: 1960495269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &416962550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416962548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa19ef1c840b2a40b37e6ea4099b618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startHealth: 10
-  destroyOnKill: 1
-  delayDeath: 0.2
-  flashColor: {r: 1, g: 0.94509804, b: 0.44705883, a: 1}
-  flashDuration: 1
 --- !u!114 &416962551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,9 +812,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 726161626150202245, guid: 538cb11d3023918408f07ae8d979e973,
     type: 3}
   projectileSpeed: 0
-  damageCooldown: 0
-  knockbackForceX: 0
-  knockbackForceY: 0
 --- !u!50 &416962552
 Rigidbody2D:
   serializedVersion: 4
@@ -904,6 +884,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.1141472, y: 5.4822493}
   m_EdgeRadius: 0
+--- !u!114 &416962554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416962548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8ea3084f35cb345a5adcd3d6f426fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 0
+  _currentHealth: 10
+  flashDuration: 0.2
+  isInvulnerable: 0
+  damageCooldown: 2
+  knockbackForceX: 10
+  knockbackForceY: 10
+  playerConfig: {fileID: 11400000, guid: 3b0f3c088c50a6348ba0eab2fd3b4819, type: 2}
 --- !u!1001 &424209952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4301,36 +4301,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1415939100}
     m_Modifications:
-    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: flashColor.b
-      value: 0.44705883
-      objectReference: {fileID: 0}
-    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: flashColor.g
-      value: 0.94509804
-      objectReference: {fileID: 0}
-    - target: {fileID: 3424180049706982015, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: flashColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6446624924781245544, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: waitTime
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6446624924781245544, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6446624924781245544, guid: bdab8cfa76933e34584ae26fc8199543,
-        type: 3}
-      propertyPath: stuckTimeout
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 6581065648375155394, guid: bdab8cfa76933e34584ae26fc8199543,
         type: 3}
       propertyPath: m_LocalPosition.x

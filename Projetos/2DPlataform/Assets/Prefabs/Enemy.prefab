@@ -3111,7 +3111,7 @@ GameObject:
   - component: {fileID: 6581065648375155394}
   - component: {fileID: 3764380482583505457}
   - component: {fileID: 5315899621443249706}
-  - component: {fileID: 3424180049706982015}
+  - component: {fileID: 1382349186319828128}
   - component: {fileID: 1303013377886567645}
   - component: {fileID: 6446624924781245544}
   m_Layer: 0
@@ -3211,7 +3211,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3424180049706982015
+--- !u!114 &1382349186319828128
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3220,12 +3220,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8882011211599360807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa19ef1c840b2a40b37e6ea4099b618, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a97bf470278eea4c9b197d8c5010b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 15
-  destroyOnKill: 1
-  delayDeath: 0.2
+  startHealth: 0
+  _currentHealth: 0
+  flashDuration: 0.1
+  isInvulnerable: 0
+  damageCooldown: 0
+  knockbackForceX: 0
+  knockbackForceY: 0
+  enemyConfig: {fileID: 11400000, guid: aec9a4865ff5b364e8bc1066817d56c5, type: 2}
 --- !u!114 &1303013377886567645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3251,5 +3256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolDistance: 3
-  moveSpeed: 2
-  waitTime: 2
+  moveSpeed: 3
+  waitTime: 4
+  stuckTimeout: 6

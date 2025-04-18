@@ -1,54 +1,98 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class HealthBase : MonoBehaviour
 {
-    public int startHealth;
-    public bool destroyOnKill;
-    public float delayDeath;
-
+    [Header("Initial Stats")]
+    [SerializeField] private int startHealth;
+    [SerializeField] private int _currentHealth;
+    private float delayDeath;
     private bool _isDead;
-    private int _currentHealth;
+    private bool destroyOnKill;
 
-    [SerializeField] private Color flashColor = Color.white;
+    [Header("Flash Settings")]
     [SerializeField] private float flashDuration = 0.1f;
-
+    private Color flashColor;
     private Color[] originalColors;
+
+    [Header("Invulnerability Settings")]
+    [SerializeField] private bool isInvulnerable = false;
+    [SerializeField] private float damageCooldown;
+    [SerializeField] private float knockbackForceX;
+    [SerializeField] private float knockbackForceY;
+
+    [Header("Componentes")]
+    private Rigidbody2D rb;
     private SpriteRenderer[] _spriteRenderer;
 
-    private void Awake()
-    {
-        _currentHealth = startHealth;
-        _spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
-    }
-    private void Start()
-    {
-        originalColors = new Color[_spriteRenderer.Length];
+    [Header("Events")]
+    private Action GetDamaged;
 
-        for (int i = 0; i < _spriteRenderer.Length; i++)
+    public int StartHealth { get => startHealth; set => startHealth = value; }
+    public int CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
+    public float DelayDeath { get => delayDeath; set => delayDeath = value; }
+    public bool IsDead { get => _isDead; set => _isDead = value; }
+    public bool DestroyOnKill { get => destroyOnKill; set => destroyOnKill = value; }
+    public bool IsInvulnerable { get => isInvulnerable; set => isInvulnerable = value; }
+    public SpriteRenderer[] SpriteRenderer { get => _spriteRenderer; set => _spriteRenderer = value; }
+    public Action GetDamaged1 { get => GetDamaged; set => GetDamaged = value; }
+    public Color FlashColor { get => flashColor; set => flashColor = value; }
+    public float FlashDuration { get => flashDuration; set => flashDuration = value; }
+    public Color[] OriginalColors { get => originalColors; set => originalColors = value; }
+
+    public void Awake()
+    {
+        SpriteRenderer = GetComponentsInChildren<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+
+        OriginalColors = new Color[SpriteRenderer.Length];
+        for (int i = 0; i < SpriteRenderer.Length; i++)
         {
-            originalColors[i] = _spriteRenderer[i].color;
+            OriginalColors[i] = SpriteRenderer[i].color;
         }
+
+        destroyOnKill = true;
+        CurrentHealth = StartHealth;
     }
 
+    public void OnEnable()
+    {
+        GetDamaged1 += HandleGetDamaged;
+    }
+
+    public void OnDisable()
+    {
+        GetDamaged1 -= HandleGetDamaged;
+    }
+
+    public Coroutine _flashCoroutine;
+
+    public void HandleGetDamaged()
+    {
+        Debug.Log("something took damage!");
+        FlashSprite();
+        Damage(5);
+
+        // Adiciona invulnerabilidade
+        IsInvulnerable = true;
+        StartCoroutine(InvulnerabilityCoroutine());
+    }
     public void Damage(int damage)
     {
-        if (_isDead) return;
+        if (IsDead) return;
 
-        _currentHealth -= damage;
+        CurrentHealth -= damage;
         FlashSprite();
 
-        if (_currentHealth <= 0) 
+        if (CurrentHealth <= 0) 
         {
             Die();
         }
     }
-
-    private Coroutine _flashCoroutine;
-
     public void FlashSprite()
     {
-        if (_spriteRenderer != null)
+        if (SpriteRenderer != null)
         {
             if (_flashCoroutine != null)
             {
@@ -58,32 +102,39 @@ public class HealthBase : MonoBehaviour
             _flashCoroutine = StartCoroutine(FlashCoroutine());
         }
     }
-
-    private IEnumerator FlashCoroutine()
-    {
-        for (int i = 0; i < _spriteRenderer.Length; i++)
-        {
-            _spriteRenderer[i].color = flashColor;
-            //Debug.Log($"[FlashCoroutine] {gameObject.name} color changed to {flashColor} on part {i}");
-        }
-
-        yield return new WaitForSeconds(flashDuration);
-
-        for (int i = 0; i < _spriteRenderer.Length; i++)
-        {
-            _spriteRenderer[i].color = originalColors[i];
-            //Debug.Log($"[FlashCoroutine] {gameObject.name} color reverted to {originalColors[i]} on part {i}");
-        }
-    }
-
-
-
     public void Die() 
     {
-        _isDead = true;
-        if (destroyOnKill)
+        IsDead = true;
+        if (DestroyOnKill)
         {
-            Destroy(gameObject, delayDeath);
+            Destroy(gameObject, DelayDeath);
         }
+    }
+    public void ApplyKnockback(Vector2 direction)
+    {
+        if (rb == null) return;
+
+        Vector2 force = new Vector2(direction.x * knockbackForceX, knockbackForceY);
+        rb.velocity = Vector2.zero;
+        rb.AddForce(force, ForceMode2D.Impulse);
+    }
+    public IEnumerator FlashCoroutine()
+    {
+        for (int i = 0; i < SpriteRenderer.Length; i++)
+        {
+            SpriteRenderer[i].color = FlashColor;
+        }
+
+        yield return new WaitForSeconds(FlashDuration);
+
+        for (int i = 0; i < SpriteRenderer.Length; i++)
+        {
+            SpriteRenderer[i].color = OriginalColors[i];
+        }
+    }
+    public IEnumerator InvulnerabilityCoroutine()
+    {
+        yield return new WaitForSeconds(damageCooldown);
+        IsInvulnerable = false;
     }
 }

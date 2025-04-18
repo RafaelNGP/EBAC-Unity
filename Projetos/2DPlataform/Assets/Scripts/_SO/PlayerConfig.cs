@@ -15,6 +15,7 @@ public class PlayerConfig : ScriptableObject
     [SerializeField] private float damageCooldown;
     [SerializeField] private float knockbackForceX;
     [SerializeField] private float knockbackForceY;
+    [SerializeField] private Color flashColor;
 
     public int InitialHP { get => initialHP; set => initialHP = value; }
     public float InitialSpeed { get => initialSpeed; set => initialSpeed = value; }
@@ -23,4 +24,5 @@ public class PlayerConfig : ScriptableObject
     public float DamageCooldown { get => damageCooldown; set => damageCooldown = value; }
     public float KnockbackForceX { get => knockbackForceX; set => knockbackForceX = value; }
     public float KnockbackForceY { get => knockbackForceY; set => knockbackForceY = value; }
+    public Color FlashColor { get => flashColor; set => flashColor = value; }
 }

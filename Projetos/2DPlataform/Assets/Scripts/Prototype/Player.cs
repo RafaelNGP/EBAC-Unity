@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     [Header("Configuração")]
     [SerializeField] private PlayerConfig playerConfig;
-    private HealthBase health;
 
     [Header("Movimentação")]
     [SerializeField] private float moveSpeed;
@@ -24,36 +23,20 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed;
 
-    [Header("Getting Damaged")]
-    private bool isInvulnerable = false;
-    [SerializeField] private float damageCooldown;
-    [SerializeField] private float knockbackForceX;
-    [SerializeField] private float knockbackForceY;
-
     [Header("Componentes")]
     private Rigidbody2D rb;
     private Animator animator;
     private Vector3 originalScale;
 
-    [Header("Events")]
-    private Action GetDamaged;
-
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
-        health = GetComponent<HealthBase>();
-        rb = GetComponent<Rigidbody2D>();
-        GetDamaged += HandleGetDamaged;
-
         moveSpeed = playerConfig.InitialSpeed;
         jumpForce = playerConfig.InitialJumpForce;
         projectileSpeed = playerConfig.ProjectileSpeed;
-        damageCooldown = playerConfig.DamageCooldown;
-        knockbackForceX = playerConfig.KnockbackForceX;
-        knockbackForceY = playerConfig.KnockbackForceY;
-
         originalScale = transform.localScale;
-        health.startHealth = playerConfig.InitialHP;
+    
+        animator = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -81,23 +64,7 @@ public class Player : MonoBehaviour
     {
         Move();
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Colisão com: " + collision.gameObject.name);
 
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            if (isInvulnerable)
-            {
-                Debug.Log("Ignorado por invulnerabilidade!");
-                return;
-            }
-
-            Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
-            ApplyKnockback(hitDirection);
-            GetDamaged?.Invoke();
-        }
-    }
     private void Move()
     {
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
@@ -117,9 +84,9 @@ public class Player : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
         animator.SetFloat("YVelocity", rb.velocity.y);
     }
-    // Gizmo para visualização do GroundCheck
     private void OnDrawGizmosSelected()
     {
+        // Gizmo para visualização do GroundCheck
         if (groundCheck != null)
         {
             Gizmos.color = Color.red;
@@ -144,28 +111,5 @@ public class Player : MonoBehaviour
                 rb.velocity = -firePoint.right * projectileSpeed;
             }
         }
-    }
-    private void HandleGetDamaged()
-    {
-        Debug.Log("Player took damage!");
-        health.FlashSprite();
-        health.Damage(5);
-
-        // Adiciona invulnerabilidade
-        isInvulnerable = true;
-        StartCoroutine(InvulnerabilityCoroutine());
-    }
-    private IEnumerator InvulnerabilityCoroutine()
-    {
-        yield return new WaitForSeconds(damageCooldown);
-        isInvulnerable = false;
-    }
-    private void ApplyKnockback(Vector2 direction)
-    {
-        if (rb == null) return;
-
-        Vector2 force = new Vector2(direction.x * knockbackForceX, knockbackForceY);
-        rb.velocity = Vector2.zero;
-        rb.AddForce(force, ForceMode2D.Impulse);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(HealthBase))]
+[RequireComponent(typeof(HealthEnemy))]
 public class EnemyBase : MonoBehaviour
 {
     private Animator animator;
