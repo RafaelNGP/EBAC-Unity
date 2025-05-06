@@ -1,3 +1,6 @@
 [submodule "Projetos/Pong"]
 	path = Projetos/Pong
 	url = https://github.com/RafaelNGP/unity-pong.git
+[submodule "Projetos/DrinkQuest"]
+	path = Projetos/DrinkQuest
+	url = https://github.com/RafaelNGP/unity-DrinkQuest.git
