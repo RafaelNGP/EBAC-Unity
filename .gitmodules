@@ -4,3 +4,6 @@
 [submodule "Projetos/DrinkQuest"]
 	path = Projetos/DrinkQuest
 	url = https://github.com/RafaelNGP/unity-DrinkQuest.git
+[submodule "unity-2DPlataform"]
+	path = unity-2DPlataform
+	url = https://github.com/RafaelNGP/unity-2DPlataform.git
